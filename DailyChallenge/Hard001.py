@@ -23,7 +23,8 @@ except ValueError:
 
 if c is None:
     while True:
-        answer = str(input("I think the number is %s? Is this this answer correct/too high/too low? Answer with C/H/L" % x)
+        answer = str(input("I think the number is %s? Is this this answer correct/too high/too low? Answer with C/H/L"
+                           % x)
                      ).lower()
         if answer in answer_list:  # Appropriate input
             try_count += 1
@@ -36,7 +37,8 @@ if c is None:
                 else:
                     range_high = x - 1
                 if range_low >= range_high:
-                    print("The number must be %s. I've guessed it after %s tries! \nGame over." % (range_low, try_count))
+                    print("The number must be %s. I've guessed it after %s tries! \nGame over."
+                          % (range_low, try_count))
                     break
                 else:
                     x = int((range_high + range_low) / 2) if stat_efficient else randint(range_low, range_high)
@@ -67,6 +69,7 @@ else:
                 else:
                     x = int((r_high + r_low) / 2) if stat_efficient else randint(r_low, r_high)
     try_average = try_count / c
-    print("Final statistics:\nNumber of rounds: %s\nNumber of tries: %s\nAverage guesses: %s" % (c, try_count, try_average))
+    print("Final statistics:\nNumber of rounds: %s\nNumber of tries: %s\nAverage guesses: %s"
+          % (c, try_count, try_average))
 
 

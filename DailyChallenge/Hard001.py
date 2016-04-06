@@ -21,11 +21,15 @@ while True:
         if answer == "c":
             print("I've guessed it after %s tries! \nGame over." % try_count)
             break
-        elif answer == "h":
-            range_low = x + 1
-            x = randint(range_low, range_high)
         else:
-            range_high = x - 1
-            x = randint(range_low, range_high)
+            if answer == "h":
+                range_low = x + 1
+            else:
+                range_high = x - 1
+            if range_low == range_high:
+                print("The number must be %s. I've guessed it after %s tries! \nGame over." % (range_low, try_count))
+                break
+            else:
+                x = randint(range_low, range_high)
     else:
         print("Please answer with either 'C', 'H' or 'L' (non-case-sensitive)")

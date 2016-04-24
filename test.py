@@ -1,18 +1,12 @@
-from threading import Timer
+from random import randint
 
-t = 3.
+for i in range(10):
+    x = randint(1,3)
+    y = randint(1,3)
+    print("x = %s, y = %s" % (x, y))
+    if x == y:
+        print("True")
+    else:
+        print("False")
 
-
-class Door:
-    def __init__(self, duration):
-        self.duration = duration
-        self.T = Timer(self.duration, self.foo)
-
-    def foo(self):
-        print("Hello world.")
-
-    def start(self):
-        self.T.start()
-
-my_door = Door(t)
-my_door.start()
+print("Hello world")

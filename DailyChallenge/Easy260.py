@@ -65,6 +65,7 @@ def click(door):
     door.toggle()
     door.get_state()
 
+
 door = Door(t)
 
 door.get_state()

@@ -1,0 +1,23 @@
+# Daily Challenge #232 [Easy]: Palindrome
+
+# Key takeaways:
+# punctuation list, remove punctuations
+# reverse a string
+
+from string import punctuation
+
+inp = 'Was it a car or a cat I saw?'
+
+
+def palindrome_check(s):
+    s_ltr = ''.join(s.translate(str.maketrans('', '', punctuation)).split()).lower()
+    s_rtl = s_ltr[::-1]
+    print(s_ltr)
+    print(s_rtl)
+    return s_ltr == s_rtl
+
+
+if palindrome_check(inp):
+    print('Input is a palindrome.')
+else:
+    print('Input is NOT a palindrome.')

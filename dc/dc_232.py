@@ -12,8 +12,6 @@ inp = 'Was it a car or a cat I saw?'
 def palindrome_check(s):
     s_ltr = ''.join(s.translate(str.maketrans('', '', punctuation)).split()).lower()
     s_rtl = s_ltr[::-1]
-    print(s_ltr)
-    print(s_rtl)
     return s_ltr == s_rtl
 
 

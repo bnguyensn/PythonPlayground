@@ -4,6 +4,7 @@
 # rounding integer
 # input validation
 # catch KeyboardInterrupt and SystemExit
+# raise Exception to break out of nested loops (the only other way is using return)
 
 import math
 
@@ -36,7 +37,9 @@ def tree_generator():
             while True:
                 try:
                     inp_tree_base_width = int(input("Enter the tree's base width (or 0 to exit):"))
-                    if inp_tree_base_width == 0 or inp_tree_base_width > 3:
+                    if inp_tree_base_width == 0:
+                        raise KeyboardInterrupt
+                    elif inp_tree_base_width > 3:
                         break
                     else:
                         print("WARNING: The tree's base width should not be less than 4 (unless it's 0"
@@ -45,18 +48,13 @@ def tree_generator():
                 except ValueError:
                     print('WARNING: Please enter a valid integer.')
 
-            # Exit if tree_base_width is 0
-            if inp_tree_base_width == 0:
-                print('Goodbye!')
-                break
-            else:
-                # This should not be larger than the tree base width
-                inp_trunk_width = 3 if inp_tree_base_width % 2 == 1 else 2
-                # This should be an even number, and less than the tree's base width
-                inp_tree_step = 2
+            # This should not be larger than the tree base width
+            inp_trunk_width = 3 if inp_tree_base_width % 2 == 1 else 2
+            # This should be an even number, and less than the tree's base width
+            inp_tree_step = 2
 
-                print("Here's your tree:")
-                draw_tree(inp_trunk_sym, inp_tree_sym, inp_tree_base_width, inp_trunk_width, inp_tree_step)
+            print("Here's your tree:")
+            draw_tree(inp_trunk_sym, inp_tree_sym, inp_tree_base_width, inp_trunk_width, inp_tree_step)
         except (KeyboardInterrupt, SystemExit):
             print('\nGoodbye!')
             break

@@ -1,9 +1,13 @@
 # Daily Challenge #243 [Intermediate]: Fruit Basket
 
 # Key takeaways:
+# Fruit basket recursive looping problem
+# Performance measurement
+# Create an array filled with zeroes of X length
 # Shallow copying a list
 
-import string
+
+import time
 
 inp_fruit_dict = {
     'apple': 52,
@@ -25,12 +29,8 @@ inp_fruit_dict2 = {
     'pineapple': 399,
     'watermelon': 500
 }
-goal = 500
-it = 0
-
-
-def remove_duplicates(arr):
-    return list(set(arr))
+inp_goal = 500
+it = 0  # Iteration count - performance measurement
 
 
 def array_loop(array, i, max_i, total, goal, prices, results):
@@ -50,7 +50,6 @@ def array_loop(array, i, max_i, total, goal, prices, results):
         total += prices[i]
 
         if total == goal:
-            # print('success! ' + str(array))
             results.append(array)
             break
     else:
@@ -67,14 +66,16 @@ def program(fruit_dict):
 
     results = []
 
-    array_loop(quantity_list, 0, total_fruit_types, 0, goal, price_list, results)
+    array_loop(quantity_list, 0, total_fruit_types, 0, inp_goal, price_list, results)
 
     for result in results:
         qp = [q * p for q, p in zip(result, price_list)]
-        t = sum(qp)
-        print(t)
+        total = sum(qp)
+        print(total)
     print(len(results))
     print(it)
 
 
+t = time.perf_counter()  # Performance measurement
 program(inp_fruit_dict2)
+print(time.perf_counter() - t)  # Performance measurement

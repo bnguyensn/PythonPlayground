@@ -7,7 +7,7 @@
 # Shallow copying a list
 # String formatting: decimal places
 
-import time
+import time  # Performance measurement
 
 inp_fruit_dict = {
     'apple': 59,

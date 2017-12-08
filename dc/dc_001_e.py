@@ -1,75 +1,74 @@
-"""Reverse guessing game"""
+# Daily Challenge #001 [Easy]: Printing information
 
-from math import isnan
-from random import randint
+# Key takeaways
+# Format input
+# Error handling
+# The any() function
+# The str.title() type
 
-range_low = 1
-range_high = 100
-answer_list = ["c", "h", "l"]
-stat_efficient = False  # True = Enable statistically efficient calculations i.e. no random guesses.
+from string import whitespace
+from string import digits
 
-try_count = 0
-x = int((range_high + range_low) / 2) if stat_efficient else randint(range_low, range_high)
 
-# Game starts
-c = input("Think of an integer between %s and %s.\nPress 'Enter' when ready."
-          "\nOptional: input an integer to let the computer plays with itself!" % (range_low, range_high))
+def program():
+    print('Welcome to the info printer!\n'
+          "Please follow the instructions, or type 'exit' anytime to quit.\n")
 
-try:
-    isnan(int(c))
-    c = int(c)
-except ValueError:
-    c = None
+    class NameWithDigits(Exception):  # Catch name with digits error
+        pass
 
-if c is None:
+    class AgeNegative(Exception):  # Catch negative age input error
+        pass
+
+    class UsernameWithSpaces(Exception):  # Catch username with whitespaces error
+        pass
+
     while True:
-        answer = str(input("I think the number is %s? Is this this answer correct/too high/too low? Answer with C/H/L"
-                           % x)
-                     ).lower()
-        if answer in answer_list:  # Appropriate input
-            try_count += 1
-            if answer == "c":
-                print("I've guessed it after %s tries! \nGame over." % try_count)
-                break
-            else:
-                if answer == "h":
-                    range_low = x + 1
-                else:
-                    range_high = x - 1
-                if range_low >= range_high:
-                    print("The number must be %s. I've guessed it after %s tries! \nGame over."
-                          % (range_low, try_count))
+        try:
+            # Name
+            while True:
+                try:
+                    inp_name = input('Enter your name: ')
+                    if inp_name == 'exit':
+                        raise KeyboardInterrupt
+                    elif any(digit in inp_name for digit in digits):
+                        raise NameWithDigits
                     break
-                else:
-                    x = int((range_high + range_low) / 2) if stat_efficient else randint(range_low, range_high)
-        else:
-            print("Please answer with either 'C', 'H' or 'L' (non-case-sensitive)")
-else:
-    if c <= 0:
-        print("Negative integers are not allowed, the computer shall play itself for one round!")
-        c = 1
-    for i in range(c):
-        r_low = range_low
-        r_high = range_high
-        y = randint(r_low, r_high)
-        x = int((r_high + r_low) / 2) if stat_efficient else randint(r_low, r_high)
-        # print("New round: y = " + str(y))
-        while True:
-            # print("guess: x = " + str(x))
-            try_count += 1
-            if x == y:
-                break
-            else:
-                if x < y:
-                    r_low = x + 1
-                else:
-                    r_high = x - 1
-                if r_low >= r_high:
+                except NameWithDigits:
+                    print('*** Error: name should not contain numbers.')
+
+            # Age
+            while True:
+                try:
+                    inp_age = input('Enter your age: ')
+                    if inp_age == 'exit':
+                        raise KeyboardInterrupt
+                    elif int(inp_age) < 0:
+                        raise AgeNegative
                     break
-                else:
-                    x = int((r_high + r_low) / 2) if stat_efficient else randint(r_low, r_high)
-    try_average = try_count / c
-    print("Final statistics:\nNumber of rounds: %s\nNumber of tries: %s\nAverage guesses: %s"
-          % (c, try_count, try_average))
+                except ValueError:
+                    print('*** Error: age must be a positive integer.')
+                except AgeNegative:
+                    print('*** Error: age must not be less than 0.')
+
+            # Username
+            while True:
+                try:
+                    inp_username = input('Enter your username: ')
+                    if inp_username == 'exit':
+                        raise KeyboardInterrupt
+                    elif any(ws in inp_username for ws in whitespace):
+                        raise UsernameWithSpaces
+                    break
+                except UsernameWithSpaces:
+                    print('*** Error: username should not contain spaces.')
+
+            # Print result
+            print('Your name is {}, you are {} y/o, and your username is {}.'
+                  .format(inp_name.title(), inp_age, inp_username))
+        except (KeyboardInterrupt, SystemExit):
+            print('Goodbye!')
+            break
 
 
+program()

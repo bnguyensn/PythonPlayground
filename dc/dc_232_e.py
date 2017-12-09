@@ -2,6 +2,7 @@
 
 # Key takeaways:
 # punctuation list, remove punctuations
+# maketrans()
 # reverse a string
 
 from string import punctuation

@@ -1,6 +1,6 @@
-# Daily Challenge #001 [Easy]: Printing information
+# Daily Challenge #001 [Easy]: Printing Information
 
-# Key takeaways
+# Key takeaways:
 # Format input
 # Error handling
 # The any() function

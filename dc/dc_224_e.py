@@ -1,4 +1,8 @@
-# Daily Challenge #224: Shuffling list
+# Daily Challenge #224 [Easy]: Shuffling List
+
+# Key takeaways:
+# Shuffling list
+
 from random import randint
 
 inputString = 'apple blackberry cherry dragonfruit grapefruit kumquat mango nectarine persimmon raspberry raspberry' \

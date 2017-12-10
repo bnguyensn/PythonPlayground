@@ -19,6 +19,30 @@ def prompt(message):
     pass
 
 
+"""Set up dungeon & cells"""
+
+
+class Dungeon:
+
+    def __init__(self, max_x, max_y):
+        self.max_x = max_x
+        self.max_y = max_y
+
+
+class Cell:
+
+    def __init__(self, dungeon, number, category):
+        self.dungeon = dungeon
+        self.number = number
+        self.category = category
+
+    def get_pos(self):
+        return divmod(self.number, self.dungeon.max_x)
+
+
+"""Process input"""
+
+
 def process_input(inp):
     print(command_dict[inp])
 
@@ -60,5 +84,7 @@ def program():
             print('Goodbye!')
             break
 
+
+"""Let's go baby!"""
 
 program()

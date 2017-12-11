@@ -10,6 +10,27 @@ command_dict = {
     'E': 'Looked around...'
 }
 
+cell_dict = {
+    # % chance of encountering each type of cell
+    0: .35,  # blank
+    1: .25,  # wall
+    2: .3,  # monster
+    3: .1  # treasure
+}
+
+
+def process_cell_dict(d):
+    # Create an array containing the % chance that a particular cell will appear
+    # based on a cell dictionary
+
+    cell_dist_list = []
+    s = 0
+    for i in range(len(list(d.values()))):
+        s = round(s + d[i], 2)
+        cell_dist_list.append(s)
+    print(cell_dist_list)
+    return cell_dist_list
+
 
 def move(direction):
     pass
@@ -32,27 +53,54 @@ class Dungeon:
 
 class Cell:
 
-    def __init__(self, dungeon, number, category):
-        self.dungeon = dungeon
+    def __init__(self, number):
         self.number = number
-        self.category = category
 
-    def get_pos(self):
+    def get_pos(self, dungeon):
         # Since the cell number goes from bottom left to top right
-        # it does not matter what the max_y is.
+        # it does not matter what max_y is.
         # max_y information is already contained in the cell number.
-        return [self.number // self.dungeon.max_x,
-                self.number % self.dungeon.max_x]
+        return [self.number // dungeon.max_x,
+                self.number % dungeon.max_x]
 
 
-def dungeon_setup(max_x, max_y):
-    # Set up dungeon
+class BlankCell(Cell):
+
+    def __init__(self, number):
+        super().__init__(number)
+        self.description = 'nothing interesting'
+
+
+class WallCell(Cell):
+
+    def __init__(self, number):
+        super().__init__(number)
+        self.description = 'impassable terrain'
+
+
+class MonsterCell(Cell):
+
+    def __init__(self, number):
+        super().__init__(number)
+        self.description = 'something sinister'
+
+
+class TreasureCell(Cell):
+
+    def __init__(self, number):
+        super().__init__(number)
+        self.description = 'shiny treasures'
+
+
+def create_new_dungeon(max_x, max_y):
+    # Set up a new dungeon
     print('Setting up dungeon...\n')
 
     cell_list = []
     dungeon = Dungeon(max_x, max_y, cell_list)
+
     for i in range(max_x * max_y):
-        cell_list.append(Cell(dungeon, i, 0))
+        cell_list.append(Cell(i))
 
     return dungeon
 
@@ -107,9 +155,9 @@ def start_taking_input():
 
 
 def program():
-    dungeon = dungeon_setup(10, 10)
-
-    start_taking_input()
+    cell_dist_list = process_cell_dict(cell_dict)
+    dungeon = create_new_dungeon(10, 10)
+    # start_taking_input()
 
 
 program()

@@ -19,14 +19,15 @@ def prompt(message):
     pass
 
 
-"""Set up dungeon & cells"""
+"""Dungeon & cells"""
 
 
 class Dungeon:
 
-    def __init__(self, max_x, max_y):
+    def __init__(self, max_x, max_y, cell_list):
         self.max_x = max_x
         self.max_y = max_y
+        self.cell_list = cell_list
 
 
 class Cell:
@@ -37,7 +38,23 @@ class Cell:
         self.category = category
 
     def get_pos(self):
-        return divmod(self.number, self.dungeon.max_x)
+        # Since the cell number goes from bottom left to top right
+        # it does not matter what the max_y is.
+        # max_y information is already contained in the cell number.
+        return [self.number // self.dungeon.max_x,
+                self.number % self.dungeon.max_x]
+
+
+def dungeon_setup(max_x, max_y):
+    # Set up dungeon
+    print('Setting up dungeon...\n')
+
+    cell_list = []
+    dungeon = Dungeon(max_x, max_y, cell_list)
+    for i in range(max_x * max_y):
+        cell_list.append(Cell(dungeon, i, 0))
+
+    return dungeon
 
 
 """Process input"""
@@ -60,7 +77,8 @@ def check_input(inp):
         return False
 
 
-def program():
+def start_taking_input():
+    # Start taking input
     print('Welcome to Text Adventure\n\n'
           "Escape from the dungeon. Enter 'W', 'A', 'S', 'D' to move.\n"
           "Enter 'E' to interact.\n"
@@ -86,5 +104,12 @@ def program():
 
 
 """Let's go baby!"""
+
+
+def program():
+    dungeon = dungeon_setup(10, 10)
+
+    start_taking_input()
+
 
 program()

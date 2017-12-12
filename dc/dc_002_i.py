@@ -2,6 +2,8 @@
 
 # Key takeaways:
 
+from random import random
+
 command_dict = {
     'W': 'Moved North',
     'A': 'Moved West',
@@ -10,7 +12,7 @@ command_dict = {
     'E': 'Looked around...'
 }
 
-cell_dict = {
+cell_percents_d = {
     # % chance of encountering each type of cell
     0: .35,  # blank
     1: .25,  # wall
@@ -23,13 +25,11 @@ def process_cell_dict(d):
     # Create an array containing the % chance that a particular cell will appear
     # based on a cell dictionary
 
-    cell_dist_list = []
-    s = 0
+    cell_percents, s = [], 0
     for i in range(len(list(d.values()))):
         s = round(s + d[i], 2)
-        cell_dist_list.append(s)
-    print(cell_dist_list)
-    return cell_dist_list
+        cell_percents.append(s)
+    return cell_percents
 
 
 def move(direction):
@@ -92,7 +92,16 @@ class TreasureCell(Cell):
         self.description = 'shiny treasures'
 
 
-def create_new_dungeon(max_x, max_y):
+cell_categories_d = {
+    # Category mapping for the cells
+    0: BlankCell,
+    1: WallCell,
+    2: MonsterCell,
+    3: TreasureCell
+}
+
+
+def create_new_dungeon(max_x, max_y, cell_percents, cell_categories):
     # Set up a new dungeon
     print('Setting up dungeon...\n')
 
@@ -100,7 +109,14 @@ def create_new_dungeon(max_x, max_y):
     dungeon = Dungeon(max_x, max_y, cell_list)
 
     for i in range(max_x * max_y):
-        cell_list.append(Cell(i))
+        r = random()
+        c = len(cell_percents) - 1  # c = category (of the cell)
+        for p in range(c):
+            if cell_percents[p] <= r < cell_percents[p + 1]:
+                c = p
+                break
+
+        cell_list.append(cell_categories[c](i))
 
     return dungeon
 
@@ -155,8 +171,19 @@ def start_taking_input():
 
 
 def program():
-    cell_dist_list = process_cell_dict(cell_dict)
-    dungeon = create_new_dungeon(10, 10)
+    cell_percents = process_cell_dict(cell_percents_d)
+    print(cell_percents)
+
+    dungeon = create_new_dungeon(10, 10, cell_percents, cell_categories_d)
+    category_count = {}
+    for cell in dungeon.cell_list:
+        cell_name = cell.__class__.__name__
+        if cell_name in category_count:
+            category_count[cell_name] += 1
+        else:
+            category_count[cell_name] = 1
+    print(category_count)
+
     # start_taking_input()
 
 

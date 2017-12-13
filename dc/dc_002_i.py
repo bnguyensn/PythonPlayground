@@ -102,8 +102,8 @@ cell_categories_d = {
 
 
 def create_new_dungeon(max_x, max_y, cell_percents, cell_categories):
-    # Set up a new dungeon
-    print('Setting up dungeon...\n')
+    # Set up a new modules
+    print('Setting up modules...\n')
 
     cell_list = []
     dungeon = Dungeon(max_x, max_y, cell_list)
@@ -144,7 +144,7 @@ def check_input(inp):
 def start_taking_input():
     # Start taking input
     print('Welcome to Text Adventure\n\n'
-          "Escape from the dungeon. Enter 'W', 'A', 'S', 'D' to move.\n"
+          "Escape from the modules. Enter 'W', 'A', 'S', 'D' to move.\n"
           "Enter 'E' to interact.\n"
           "Enter 'exit' to quit.\n\n")
 

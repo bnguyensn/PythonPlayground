@@ -7,7 +7,7 @@ import ta.modules.cli as cli
 def program():
     d = dungeon.create_new_dungeon(10, 10)
     print('')
-    cli.start_taking_input()
+    cli.start_taking_input(d.player)
 
 
 program()

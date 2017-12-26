@@ -1,5 +1,7 @@
 """Contains codes about creatures"""
 
+from random import randint
+
 
 class Creature:
     
@@ -17,9 +19,22 @@ class Creature:
         self.pos_y = dest_y
 
     def attack(self, target):
-        target.stats.hp -= self.stats.dmg
+        # Roll a die to determine damage!
+        dmg = randint(self.stats.dmg_min, self.stats.dmg_max)
+        target.stats.hp -= dmg
 
-    def kill(self):
+        print('{} attacks {} for {} damage!'.format(self.name, target.name, dmg))
+
+        # Check if target is dead
+        if target.stats.hp <= 0:
+            target.self_destruct()
+
+    def self_destruct(self):
+        # Remove self from dungeon
+        self.dungeon.get_cell_from_xy(self.pos_x, self.pos_y).contains = None
+        # Move self to graveyard
+        self.pos_x, self.pos_y = 0, 0
+
         print('{} has been destroyed.'.format(self.name))
 
 

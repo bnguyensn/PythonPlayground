@@ -6,6 +6,7 @@ import sys, os.path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import ta.modules.creature as creature
 
+
 """CLASSES"""
 
 
@@ -19,19 +20,25 @@ class Dungeon:
     def get_blank_cells(self):
         return [cell for cell in self.cell_list if type(cell).__name__ == 'BlankCell']
 
+    def get_cell_from_xy(self, x, y):
+        # Array starts from 0, cell no. starts from 1
+        return self.cell_list[((y * self.max_x) + x) - 1]
+
 
 class Cell:
 
-    def __init__(self, dungeon, number):
+    def __init__(self, dungeon, number, contains):
         self.dungeon = dungeon
         self.number = number
+        self.contains = contains
 
     def get_pos(self):
         # Since the cell number goes from bottom left to top right
         # it does not matter what max_y is.
         # max_y information is already contained in the cell number.
-        return [self.number // self.dungeon.max_x,
-                self.number % self.dungeon.max_x]
+        y = self.number // self.dungeon.max_y
+        x = self.number - self.dungeon.max_x * (y - 1)
+        return [x, y]
 
 
 class BlankCell(Cell):
@@ -80,7 +87,7 @@ def init_monsters(dungeon):
         if random() <= .5:  # 50% chance to place a monster on a blank cell
             pos_x = blank_cell.get_pos()[0]
             pos_y = blank_cell.get_pos()[1]
-            creature.Skeleton(dungeon, pos_x, pos_y)
+            blank_cell.contains = creature.Skeleton(dungeon, pos_x, pos_y)
 
             count += 1
 
@@ -95,7 +102,7 @@ def create_new_dungeon(max_x, max_y):
     cell_list = []
     dungeon = Dungeon(max_x, max_y, cell_list)  # Instantiate a new Dungeon
 
-    for i in range(max_x * max_y):
+    for i in range(1, (max_x * max_y) + 1):
         r = random()
         c = len(CELL_PERCENTS) - 1  # c = category (of the cell)
         for p in range(c):
@@ -103,7 +110,7 @@ def create_new_dungeon(max_x, max_y):
                 c = p
                 break
 
-        cell_list.append(CELL_CATEGORIES[c](dungeon, i))
+        cell_list.append(CELL_CATEGORIES[c](dungeon, i, None))  # Array starts from 0, cell no. starts from 1
 
     # Place creatures
 

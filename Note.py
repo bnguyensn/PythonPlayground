@@ -61,12 +61,14 @@ def compute_bill(food):
         total += food[key]
     return total
 
+
 n = [3, 5, 7]
 
 
 def print_list(x):
     for i in range(0, len(x)):
         print(x[i])
+
 
 range(6)  # => [0,1,2,3,4,5] (Stop)
 range(1, 6)  # => [1,2,3,4,5] (Start, Stop)
